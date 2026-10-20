@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Browser History Simulator</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #eef2f7;
+            text-align: center;
+            padding: 40px;
+        }
+        .box {
+            background: white;
+            max-width: 600px;
+            margin: auto;
+            padding: 25px;
+            border-radius: 12px;
+        }
+        input {
+            padding: 12px;
+            width: 65%;
+        }
+        button {
+            padding: 12px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background: #2563eb;
+            color: white;
+        }
+        button:disabled {
+            background: #aaa;
+            cursor: not-allowed;
+        }
+        li {
+            text-align: left;
+            padding: 8px;
+            overflow-wrap: anywhere;
+        }
+        a {
+            color: #2563eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>Browser History Simulator</h1>
+
+        <form method="POST">
+            <input name="url" placeholder="Enter website URL" required>
+            <button name="action" value="visit">Visit</button>
+        </form>
+
+        <br>
+
+        <form method="POST">
+            <button name="action" value="back"
+                    {% if not can_back %}disabled{% endif %}>
+                ← Back
+            </button>
+
+            <button name="action" value="forward"
+                    {% if not can_forward %}disabled{% endif %}>
+                Forward →
+            </button>
+
+            <button name="action" value="clear">Clear</button>
+        </form>
+
+        <h3>Current Website</h3>
+        {% if current %}
+            <p><a href="{{ current }}" target="_blank">{{ current }}</a></p>
+        {% else %}
+            <p>No website visited yet.</p>
+        {% endif %}
+
+        <h3>Browsing History</h3>
+        <ol>
+            {% for url in history|reverse %}
+                <li>{{ url }}</li>
+            {% else %}
+                <li>No history available.</li>
+            {% endfor %}
+        </ol>
+    </div>
+</body>
+</html>
